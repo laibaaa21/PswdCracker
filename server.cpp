@@ -3,11 +3,18 @@
 #include <vector>
 #include <queue>
 #include <unordered_map>
+#ifdef _WIN32
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#pragma comment(lib, "ws2_32.lib")
+#else
 #include <netinet/in.h>
 #include <unistd.h>
+#endif
+
 #include <cstring>
 #include "config.h"
-#include "helpers.h"
+#include "utils/helpers.h"
 
 std::queue<std::vector<std::string>> task_queue;
 
@@ -45,8 +52,11 @@ void handle_worker(int client_socket, sockaddr_in addr)
 
         std::cout << "[ ] " << worker_id << " tried " << chunk.size() << " passwords" << std::endl;
     }
-
+#ifdef _WIN32
+    closesocket(client_socket);
+#else
     close(client_socket);
+#endif
 }
 
 int main()
@@ -70,7 +80,12 @@ int main()
         int client_socket = accept(server_fd, (struct sockaddr *)&client_addr, &addrlen);
         std::thread(handle_worker, client_socket, client_addr).detach();
     }
-
+#ifdef _WIN32
+    closesocket(server_fd);
+    WSACleanup(); // Cleanup WinSock
+#else
     close(server_fd);
+#endif
+
     return 0;
 }

@@ -1,0 +1,33 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "build worker",
+            "command": "g++",
+            "args": [
+                "PswdCracker/worker.cpp",  
+        "-I",
+        "C:/Users/pc/vcpkg/installed/x64-windows/include",
+        "-I",
+        "C:/Users/pc/Documents/University/4thSem/algo/PasswordCracker/PswdCracker", 
+        "-L",
+        "C:/Users/pc/vcpkg/installed/x64-windows/lib",
+        "-lssl",
+        "-lcrypto",
+        "-lws2_32",
+        "-o",
+        "worker.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Generated task by VS Code"
+        }
+    ],
+    "version": "2.0.0"
+}

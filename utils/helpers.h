@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <queue>
+#include <functional>
 
 void generate_keyspace_chunks(const std::string &charset, int max_length, int chunk_size, std::queue<std::vector<std::string>> &task_queue)
 {
